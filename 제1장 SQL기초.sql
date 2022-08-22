@@ -42,8 +42,32 @@ DELETE FROM `User1` WHERE `uid`='A101';
 DELETE FROM `User1` WHERE `uid`='A102' AND `age`=23;
 DELETE FROM `User1` WHERE `age`>=30;
 
-
-
 #실습 1-7 연습문제
+CREATE DATABASE `UserEx`;
+CREATE TABLE `Tb1User` (
+				`userId`	VARCHAR(10),
+                `userName`	VARCHAR(10),
+                `userHp`	CHAR(13),
+                `userAge`	TINYINT,
+                `userAddr`	VARCHAR(20)
+                );
+CREATE TABLE `Tb1Product` (
+				`prdCode`		INT,
+                `prdName`		VARCHAR(10),
+                `prdPrice`		INT,
+                `prdAmount`		INT,
+                `prdCompany`	VARCHAR(10),
+                `prdMakedate`	DATE
+                );
 #실습 1-8
+INSERT INTO `Tb1User` VALUES ('p101','김유신','010-1234-1001',25,'서울시 중구') ;
+INSERT INTO `Tb1USer` VALUES ('p102','김춘추','010-1234-1002',23,'부산시 금정구');
+INSERT INTO `Tb1USer` (`userId`,`userName`,`UserAge`,`UserAddr`) VALUES ('p103','장보고',31,'경기도 광주군');
+INSERT INTO `Tb1USer` (`userId`,`userName`,`UserAddr`) VALUES ('p104','강감찬','경남 창원시');
+INSERT INTO `Tb1USer` SET
+				`userId`='p105',
+                `userName`='이순신',
+                `userHp`='010-1234-1005',
+                `userAge`=50;
+INSERT INTO `Tb1Product` VALUES (1,'냉장고',800,10,'LG',20220106);
 #실습 1-9
