@@ -89,4 +89,12 @@ UPDATE `Tb1User` SET `userAddr`='경남 김해시' WHERE `userId`='p105';
 DELETE FROM `Tb1user` WHERE `userid`='p103';
 
 SELECT * FROM `tb1Product`;
-SELECT `prdNAME` FROM `tb1
+SELECT `prdName` FROM `Tb1product`;
+SELECT `prdName`, `prdPrice` FROM `Tb1Product`;
+SELECT * FROM `Tb1Product` WHERE `prdCompany`='LG';
+SELECT * FROM `Tb1Product` WHERE `prdCompany`='삼성';
+UPDATE `Tb1Product` SET
+	`prdCompany`='삼성',
+	`prdMakeDate`='2021-01-01'
+	WHERE
+	`prdCode`=5;
