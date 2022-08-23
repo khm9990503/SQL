@@ -43,7 +43,6 @@ DELETE FROM `User1` WHERE `uid`='A102' AND `age`=23;
 DELETE FROM `User1` WHERE `age`>=30;
 
 #실습 1-7 연습문제
-CREATE DATABASE `UserEx`;
 CREATE TABLE `Tb1User` (
 				`userId`	VARCHAR(10),
                 `userName`	VARCHAR(10),
@@ -70,4 +69,24 @@ INSERT INTO `Tb1USer` SET
                 `userHp`='010-1234-1005',
                 `userAge`=50;
 INSERT INTO `Tb1Product` VALUES (1,'냉장고',800,10,'LG',20220106);
+INSERT INTO `Tb1Product` VALUES (2,'노트북',1200,20,'삼성',20220106);
+INSERT INTO `Tb1Product` VALUES (3,'TV',1400,6,'LG',20220106);
+INSERT INTO `Tb1Product` VALUES (4,'세탁기',1000,8,'LG',20220106);
+INSERT INTO `Tb1Product` VALUES (5,'컴퓨터',1100,0,null,null);
+INSERT INTO `Tb1Product` VALUES (6,'휴대폰',900,102,'삼성',20220106);
+
 #실습 1-9
+SELECT * FROM `tb1user`;
+SELECT `userName` FROM `tb1user`;
+SELECT `userName`,`userHp` FROM `tb1user`;
+SELECT * FROM `Tb1user` WHERE `userid`='p102';
+SELECT * FROM `Tb1user` WHERE `userId`='p104' OR `userId`='p105';
+SELECT * FROM `Tb1User` WHERE `userAddr`='신라';
+SELECT * FROM `Tb1User` WHERE `userAge` > 30;
+SELECT * FROM `Tb1User` WHERE `userHp` IS NULL;
+UPDATE `tb1User` SET `userAge`=42 WHERE `UserId`='p104';
+UPDATE `Tb1User` SET `userAddr`='경남 김해시' WHERE `userId`='p105';
+DELETE FROM `Tb1user` WHERE `userid`='p103';
+
+SELECT * FROM `tb1Product`;
+SELECT `prdNAME` FROM `tb1
