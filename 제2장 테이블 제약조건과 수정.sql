@@ -65,6 +65,7 @@ insert into `user4` (`name`,`gender`,`age`,`addr`)values ('김춘추',1,23,'경�
 insert into `user4` (`name`,`gender`,`age`,`addr`)values ('심사임당',2,27,'강릉시');
 
 delete from `user4` where `name`='심사임당';
+
 #실습 2-9 not null : 중요한거 , default : null 대신 들어감
 CREATE TABLE `User5`(
 	`name`		varchar(10) NOT NULL,
@@ -77,8 +78,19 @@ insert into `user5` set `name`='김유신';
 insert into `user5` set `name`='김춘추', `addr`='부산시';
 
 #실습 2-11
+alter table `User5` add `hp` varchar(20);
+alter table `User5` add `birth` char(10) default '0000-00-00' after `name`;
+alter table `User5` add `uid` varchar(10) first;
+
 #실습 2-12
+alter table `user5` modify `hp` char(13);
+alter table `user5` modify `age` tinyint;
+
 #실습 2-13
+alter table `user5` change column `addr` `address` varchar(100);
 #실습 2-14
+
 #실습 2-15
+create table `user6` like `user5`;
 #실습 2-16
+insert into `user6` select * from `user5`;
