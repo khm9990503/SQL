@@ -1,5 +1,5 @@
 #날짜 : 2022/08/24
-#이름 : 구호옴
+#이름 : 구홍모
 #내용 : 제4장 SQL 고급
 
 #실습 4-1
@@ -117,15 +117,126 @@ select * from `sales` limit 5, 3;
 select * from `sales` order by `sale` desc limit 3,5;
 select * from `sales` where `sale` < 50000 order by `sale` desc limit 3;
 select * from `sales` where `sale` > 50000 order by `year` desc, `month`, `sale` desc limit 5;
-#실습 4-6
-#실습 4-7
+
+#실습 4-6 내장함수
+select sum(`sale`) as `합계` from `sales`;
+select avg(`sale`) as `평균` from `sales`;
+select max(`sale`) as `최대값` from `sales`;
+select min(`sale`) as `최소값` from `sales`;
+select count(*) as `갯수` from `sales`;
+select count(`sale`) as `갯수` from `sales`;
+
+
+select substring(`hp`, 10, 4 ) as `전화번호 끝자리` from `Member`;
+
+insert into `Member` values ('b101','을지문덕','010-5555-1234','사장',107,now());
+
+#실습 4-7 2018년 1월 총 매출합
+select sum(`sale`) as `2018년 1월 매출 총합` from `sales` where `year` in ('2018') and `month` in('1');
+
 #실습 4-8
+select sum(`sale`) as `2019년 2월에 5만원 이상 매출 총합` from `sales` where `sale`>50000 and `year` in ('2019') and `month` in ('2');
+select avg(`sale`) as `2019년 2월에 5만원 이상 매출 평균` from `sales` where `sale`>50000 and `year` in ('2019') and `month` in ('2');
 #실습 4-9
+select min(`sale`) as `2020년 전체 매출 최저 매출` from `sales` where `year` in ('2020');
+select max(`sale`) as `2020년 전체 매출 최고 매출` from `sales` where `year` in ('2020');
 #실습 4-10
-#실습 4-11
-#실습 4-12
-#실습 4-13
+select * from `sales` group by `uid`;
+select * from `sales` group by `year`;
+select * from `sales` group by `uid`,`year`;
+select `uid`, count(`seq`) as `건수` from `sales` group by `uid`;
+select `uid`, sum(`sale`) as `합계` from `sales` group by `uid`;
+select `uid`, avg(`sale`) as `평균` from `sales` group by `uid`;
+
+select `uid`,`year`, sum(`sale`) as `합계` from `sales` group by `uid`,`year`;
+
+select `uid`,`year`,sum(`sale`) as `합계`  from `sales`
+where `sale` >= 50000
+group by `uid`, `year`
+order by `합계` desc
+limit 3;
+
+#실습 4-11 having 조건절 (group 뒤에 온다)
+select `uid`,sum(`sale`) as `합계` from `sales` group by `uid` having `합계`>200000;
+select `uid`,`year`,sum(`sale`) as `합계`
+from `sales`
+group by `uid`,`year`
+having `합계`>=200000
+order by `합계` desc;
+#실습 4-12 유니온 (테이블 합쳐서 보기) : 칼럼 갯수가 같아야 한다.
+create table `sales2` like `sales`;
+insert into `sales2` select * from `sales`;
+update `Sales2` set `year` = `year` + 3;
+
+select * from `sales` union select * from `sales2`;
+(select * from `sales`) union (select * from `sales2`);
+select `uid`,`year`,`sale` from `sales` 
+union 
+select `uid`,`year`,`sale` from `sales2`;
+
+select `uid`,`year`,sum(`sale`) as `합계`
+from `sales`
+group by `uid`,`year`
+union
+select `uid`,`year`,sum(`sale`) as `합계`
+from `sales2`
+group by `uid`,`year`
+order by `year` asc, `합계` desc;
+
+#실습 4-13 테이블 결합 (2개의 테이블을 1개의 테이블로 만들기, 두 테이블의 공통 컬럼이 필요)
+select * from `sales` inner join `Member` on sales.uid = member.uid;
+select * from `Member` inner join `department` on member.dep=department.depNo;
+
+select * from `sales` as a 
+join `member` as b
+on a.uid=b.uid;
+
+select `seq`,a.`uid`,`sale`,`name`,`pos` 
+from `sales` as a
+join `member` as b
+on a.uid=b.uid;
+
+select `seq`,a.`uid`,`sale`,`name`,`pos` 
+from `sales` as a
+join `member` as b
+using (`uid`);
+
+select * from `sales` as a
+join `member` as b
+on a.uid=b.uid
+join `department` as c on b.dep = c.depno;
+
 #실습 4-14
-#실습 4-15
+select * from `sales` as a
+left join `member` as b
+on a.uid=b.uid;
+
+select * from `sales` as a
+right join `member` as b
+on a.uid=b.uid;
+
+select a.seq, a.uid, `sale`, `name`, `pos` from `sales` as a
+left join `member` as b using(uid);
+
+select a.seq, a.uid, `sale`, `name`, `pos` from `sales` as a
+right join `member` as b using(uid);
+
+#실습 4-15 모든 직원 아이디, 이름, 직급, 부서명을 조회
+select `uid`,a.name,`pos`,b.name from `member` as a
+left join `department` as b
+on a.dep=b.depno;
+
 #실습 4-16
+select sum(`sale`) as `김유신 2019 매출합` from `sales` as a
+join `member` as b 
+using(`uid`) where a.year=2019 and `name`='김유신';
+
 #실습 4-17
+select b.`name`,c.`name`,b.`pos`,a.`year`,sum(`sale`) as `매출합` from `sales` as a
+join `member` as b
+on a.uid=b.uid
+join `department` as c on b.dep=c.depno
+where `year`=2019 and `sale` >= 50000
+group by a.`uid`
+having `매출합`>=100000
+order by `매출합` desc;
