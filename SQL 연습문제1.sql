@@ -1,157 +1,129 @@
-# 날짜 : 2022/08/31
-# 이름 : 구홍모
-# 내용 : SQL 연습문제2
+#날짜 : 2022/08/29
+#이름 : 구홍모
+#내용 : SQL 연습문제1
 
-#실습2-1
-create database `java1_bank`;
-create user 'java1_admin2'@'%' identified by '1234';
-grant all privileges on `java1_bank`.* to 'java1_admin2'@'%';
+#실습 1-1
+create database `java1_shop`;
+create user 'java1_admin1'@'%' identified by '1234';
+grant all privileges on `java1_Shop`.* to 'java1_admin1'@'%';
 flush privileges;
-#실습2-2
-create table `bank_customer` (
-	`c_no`		varchar(14) primary key not null,
-    `c_name`	varchar(20) not null,
-    `c_dist`	int default 0,
-    `c_phone`	varchar(20) not null,
-    `c_addr`	varchar(100) default null
-);
-create table `bank_account` (
-	`a_no`			varchar(11) primary key not null,
-    `a_item_dist`	varchar(2) not null,
-    `a_item_name`	varchar(20) not null,
-    `a_c_no`		varchar(14) not null,
-    `a_balance`		int	default 0,
-    `a_open_date`	date
-);
-create table `bank_transaction` (
-	`t_no`			int auto_increment primary key,
-    `t_a_no`		varchar(11) not null,
-    `t_dist`		int not null,
-    `t_amount`		int default 0,
-    `t_datetime`	datetime not null
-);
-#실습2-3
-insert into `bank_customer` values ('102-22-51094','부산의원',2,'051-518-1010','부산시 남구');
-insert into `bank_customer` values ('220-82-52237','(주)한국전산',2,'02-134-1045','서울시 강서구');
-insert into `bank_customer` values ('361-22-42867','(주)정보산업',2,'031-563-1253','경기도 광명시');
-insert into `bank_customer` values ('730423-1000001','김유신',1,'010-1234-1001','경기도 수원시');
-insert into `bank_customer` values ('750210-1000002','김춘추',1,'010-1234-1002','경기도 광주시');
-insert into `bank_customer` values ('830513-2000003','선덕여왕',1,'010-1234-1003','서울시 마포구');
-insert into `bank_customer` values ('870830-1000004','강감찬',1,'010-1234-1004','서울시 영등포구');
-insert into `bank_customer` values ('910912-2000005','신사임당',1,'010-1234-1005','강원도 강릉시');
-insert into `bank_customer` values ('941127-1000006','이순신',1,'010-1234-1006','부산시 영도구');
 
-insert into `bank_account` values ('101-11-1001','S1','자유저축예금','730423-1000001',420000,20050721);
-insert into `bank_account` values ('101-11-1003','S1','자유저축예금','870830-1000004',53000,20070217);
-insert into `bank_account` values ('101-11-2001','S1','자유저축예금','220-82-52237',23000000,20030414);
-insert into `bank_account` values ('101-11-2002','S1','자유저축예금','361-22-42687',4201000,20081230);
-insert into `bank_account` values ('101-11-2003','S1','자유저축예금','102-22-51094',8325010,20100607);
-insert into `bank_account` values ('101-12-1002','S2','정기적립예금','830513-2000003',1020000,20110513);
-insert into `bank_account` values ('101-13-1005','S3','주책청약예금','941127-1000006',720800,20121015);
-insert into `bank_account` values ('101-21-1004','L1','고객신용대출','910912-2000005',1200500,20090825);
-insert into `bank_account` values ('101-22-1006','L2','예금담보대출','730423-1000001',25000,20131211);
-insert into `bank_account` values ('101-23-1007','L3','주택담보대출','750210-1000002',2700000,20200923);
+#실습 1-2
+create table `customer`(
+		`cusId`		varchar(10) primary key,
+        `name`		varchar(10) not null,
+        `hp`		char(13) ,
+        `addr`		varchar(100),
+        `rdate`		date
+        );
+        
+create table `product`(
+		`prodNo`		int auto_increment primary key,
+        `prodName`		varchar(10) not null,
+        `stock`			int default '0',
+        `price`			int default null,
+        `company`		varchar(20) not null
+        );
+        
+create table `Order` (
+		`orderNo`		int auto_increment primary key,
+        `orderId`		varchar(10) not null,
+        `orderProduct`	tinyint not null,
+        `orderCount`	tinyint not null,
+        `orderdate`		datetime not null
+        );
 
-insert into `bank_transaction` values (1,'101-11-1001',1,50000,'2022-08-21 04:26:52');
-insert into `bank_transaction` values (2,'101-11-1003',2,120000,'2022-08-21 04:26:52');
-insert into `bank_transaction` values (3,'101-11-2001',2,300000,'2022-08-21 04:26:52');
-insert into `bank_transaction` values (4,'101-12-1002',1,1000000,'2022-08-21 04:26:52');
-insert into `bank_transaction` values (5,'101-11-1001',3,0,'2022-08-21 04:26:52');
-insert into `bank_transaction` values (6,'101-13-1005',1,200000,'2022-08-21 04:26:52');
-insert into `bank_transaction` values (7,'101-11-1001',1,450000,'2022-08-21 04:26:52');
-insert into `bank_transaction` values (8,'101-11-1002',2,32000,'2022-08-21 04:26:52');
-insert into `bank_transaction` values (9,'101-11-2003',3,0,'2022-08-21 04:26:52');
-insert into `bank_transaction` values (10,'101-11-1003',1,75000,'2022-08-21 04:26:52');
-#실습2-4
-select * from `bank_account`;
-#실습2-5
-select * from `bank_customer`;
-#실습2-6
-select * from `bank_transaction`;
-#실습2-7
-select `c_name`,`c_no` from `bank_customer`;
-#실습2-8
-select `a_item_dist`,`a_item_name` from `bank_account`;
-#실습2-9
-select distinct `a_item_dist`,`a_item_name` from `bank_account`;
-#실습2-10
-select * from `bank_account` where `a_balance` > 1000000 and `a_item_dist` in ('s1');
-#실습2-11
-select * from `bank_customer` where `c_addr` like ('경기도%');
-#실습2-12
-select * from `bank_customer` where `c_dist` in ('2');
-#실습2-13
-select * from `bank_transaction` where `t_dist` in ('1');
-#실습2-14
-select * from `bank_transaction` where `t_dist` in ('2') order by `t_amount` desc;
-#실습2-15
-select sum(`t_amount`) as `입금총합`, avg(`t_amount`) as `입금평균` from `bank_transaction` where `t_dist`=1;
-#실습2-16
-select Max(`t_amount`) as `큰 금액`, min(`t_amount`) as `작은 금액` from `bank_transaction` where `t_dist`=2;
-#실습2-17
-select * from `bank_account` where `a_item_dist`='s1' order by `a_balance` desc;
-#실습2-18
-select * from `bank_account` where `a_item_dist`='s1' order by `a_balance` desc limit 1;
-#실습2-19
-select * from `bank_transaction` where `t_dist`=1 or `t_dist`=2 order by `t_dist`, `t_amount` desc;
-#실습2-20
-select 
-count(case when `t_dist`=1 then 1 end) as `입금 건수`,
-count(case when `t_dist`='2' then 1 end) as `출금 건수`,
-count(case when `t_dist`='3' then 1 end) as `초회 건수` 
-from `bank_transaction`;
-select 
-count(if(`t_dist`=1, 1 ,null)) as `입금 건수`,
-count(if(`t_dist`=2, 1 ,null)) as `출금 건수`,
-count(if(`t_dist`=3, 1 ,null)) as `초회 건수` 
-from `bank_transaction`;
-#실습2-21
-select `t_dist`, case 
-when `t_dist`=1 then '입금' 
-when `t_dist`=2 then '출금'
-when `t_dist`=3 then '조회'
-end as `type`, `t_a_no`,`t_amount` from `bank_transaction`;
-#실습2-22
-select  `t_dist`, count(`t_no`) from `bank_transaction` group by `t_dist` ;
-#실습2-23
-select `t_a_no`,`t_dist`, sum(`t_amount`) from `bank_transaction` where `t_dist`=1 group by `t_a_no`; 
-#실습2-24
-select `t_a_no`,`t_dist`, sum(`t_amount`) as `합계` from `bank_transaction` where `t_dist`=1 group by `t_a_no` having `합계`>= 100000 order by `합계` desc;
-#실습2-25
-select * from `bank_account` as a
-join `bank_customer` as b
-on a.a_c_no=b.c_no;
-#실습2-26
-select `a_no` as `계좌번호`, `a_item_name` as `계좌이름` , `a_c_no` as `주민번호(사업자번호)`, `c_name` as `고객명`, `a_balance` as `현재잔액`
-from `bank_account` as a
-join `bank_customer` as b
-on a.a_c_no=b.c_no;
-#실습2-27
-select * from `bank_transaction` as a
-join `bank_account` as b
-on a.t_a_no=b.a_no;
-#실습2-28
-select 
-	`t_no` as `거래번호`,
-    `t_a_no` as `계좌번호`,
-    `a_c_no` as `고객번호(주민번호)`,
-    `t_dist` as `거래구분`,
-    `t_amount` as `거래금액`,
-    `t_datetime` as `거래일자`
-from `bank_transaction` as a
-join `bank_account` as b
-on a.t_a_no=b.a_no;
-#실습2-29
-select * from `bank_transaction` as a
-join `bank_account` as b on a.t_a_no = b.a_no
-join `bank_customer` as c on b.a_c_no = c.c_no
-where a.t_dist=1
-order by `t_amount` desc;
-#실습2-30
-select `t_no`,`a_no`,`c_no`,`t_dist`,`a_item_name`,`c_name`, count(`c_no`) as `거래건수` 
-from `bank_transaction` as a
-join `bank_account` as b on a.t_a_no = b.a_no
-join `bank_customer` as c on b.a_c_no = c.c_no
-where `t_dist` in (1,2) and `c_dist`=1
-group by `c_no`
-order by `t_dist` asc, `거래건수` desc;
+#실습 1-3
+
+insert into `customer` values ('c101','김유신','010-1234-1001','김해시 봉황동',20220101);
+insert into `customer` values ('c102','김춘추','010-1234-1002','경주시 보은동',20220102);
+insert into `customer` values ('c103','장보고','010-1234-1003','완도군 정산면',20220103);
+insert into `customer` values ('c104','강감찬','010-1234-1004','서울시 마포구',20220104);
+insert into `customer` values ('c105','이성계',null,null,20220105);
+insert into `customer` values ('c106','정철','010-1234-1006','경기도 용인신',20220106);
+insert into `customer` values ('c107','허준',null,null,20220107);
+insert into `customer` values ('c108','이순신','010-1234-1008','서울시 영등포구',20220108);
+insert into `customer` values ('c109','송상현','010-1234-1009','부산시 동래구',20220109);
+insert into `customer` values ('c110','정약용','010-1234-1010','경기도 광주시',20220110);
+
+insert into `Product` (`prodName`,`stock`,`price`,`company`) values ('새우깡',5000,1500,'농심');
+insert into `Product` (`prodName`,`stock`,`price`,`company`) values ('초코파이',2500,2500,'오리온');
+insert into `Product` (`prodName`,`stock`,`price`,`company`) values ('포카칩',3600,1700,'오리온');
+insert into `Product` (`prodName`,`stock`,`price`,`company`) values ('양파링',1250,1800,'농심');
+insert into `Product` (`prodName`,`stock`,`price`,`company`) values ('죠리퐁',2200,null,'크라운');
+insert into `Product` (`prodName`,`stock`,`price`,`company`) values ('마카렛트',3500,3500,'롯데');
+insert into `Product` (`prodName`,`stock`,`price`,`company`) values ('뿌셔뿌셔',1650,1200,'오뚜기');
+
+insert into `order`  values (1,'c102',3,2,'2022-07-01 13:15:10');
+insert into `order`  values (2,'c101',4,1,'2022-07-01 14:16:11');
+insert into `order`  values (3,'c108',1,1,'2022-07-01 17:23:18');
+insert into `order`  values (4,'c109',6,5,'2022-07-02 10:46:36');
+insert into `order`  values (5,'c102',2,1,'2022-07-03 09:15:37');
+insert into `order`  values (6,'c101',7,3,'2022-07-03 12:35:12');
+insert into `order`  values (7,'c110',1,2,'2022-07-03 16:55:36');
+insert into `order`  values (8,'c104',2,4,'2022-07-04 14:23:23');
+insert into `order`  values (9,'c102',1,3,'2022-07-04 21:54:34');
+insert into `order`  values (10,'c107',6,1,'2022-07-05 14:21:03');
+#실습 1-4
+select * from `customer`;
+#실습 1-5
+select `cusid`,`name`,`hp` from `customer`;
+#실습 1-6
+select * from `product`;
+#실습 1-7
+select `company` from `product`;
+#실습 1-8
+select distinct `company` from `product`;
+#실습 1-9
+select `prodname`,`price` from `product`;
+#실습 1-10
+select `prodName`,`price`+500 as `조정단가` from `product`;
+#실습 1-11
+select `prodname`,`stock`,`price` from `product` where `company` in ('오리온');
+#실습 1-12
+select `orderProduct`, `ordercount`, `orderdate` from `order` where `orderid` in ('c102');
+#실습 1-13
+select `orderProduct`, `ordercount`, `orderdate` from `order` where `orderid` in ('c102') and `ordercount`>=2;
+#실습 1-14
+select * from `product` where `price`>=1000 and `price`<=2000;
+#실습 1-15
+select `cusid`, `name`,`hp`,`addr` from `customer` where `name` like '김__';
+#실습 1-16
+select `cusid`, `name`,`hp`,`addr` from `customer` where `name` like '__';
+#실습 1-17
+select * from `customer` where `hp` is null;
+#실습 1-18
+select * from `customer` where `addr` is not null;
+#실습 1-19
+select * from `customer` order by `rdate` desc;
+#실습 1-20
+select * from `order` where `ordercount`>=3 order by `ordercount` desc, `orderproduct` asc ;
+#실습 1-21
+select avg(`price`) as `단가평균` from `product`;
+#실습 1-22
+select sum(`stock`) as `재고량 합계` from `product` where `company`='농심';
+#실습 1-23
+select count(`cusid`) as `고객수` from `customer`;
+#실습 1-24
+select count(distinct`company`) as `제조업체의 수` from `product`;
+#실습 1-25
+select `orderproduct` as `주문 상품번호`, sum(`ordercount`) as `총 주문수량` from `order` group by `orderproduct` order by `orderproduct`;
+#실습 1-26
+select `company` as `제조업체`, count(*) as `제품수`, Max(`price`) as `최고가` from `product` group by `company`;
+#실습 1-27
+select `company` as `제조업체`, count(*) as `제품수`, Max(`price`) as `최고가` from `product` group by `company` having `제품수` >= 2;
+#실습 1-28
+select `orderproduct`, `orderid`, sum(`ordercount`) as `총 주문수량` from `order` group by `orderProduct`, `orderid` order by `orderProduct`;
+#실습 1-29
+select a.orderid, b.prodname from `order` as a
+join `product`as b
+on a.`orderProduct`=b.`prodNo`
+where `orderid`='c102';
+#실습 1-30
+select `orderid`, `name`, `prodname`, `orderdate` from `order` as a
+join `customer` as b
+on a.orderid=b.cusid
+join `product` as c
+on a.orderProduct=c.prodno
+where substr(a.`orderdate`,1,10) = '2022-07-03';
+# 또는 a.`orderdate` like '2022-07-03%'
