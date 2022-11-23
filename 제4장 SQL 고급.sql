@@ -239,4 +239,5 @@ join `department` as c on b.dep=c.depno
 where `year`=2019 and `sale` >= 50000
 group by a.`uid`
 having `매출합`>=100000
-order by `매출합` desc;
+order by `매출합` DESC;
+

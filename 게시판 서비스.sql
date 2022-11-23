@@ -88,3 +88,18 @@ DELETE FROM `board_article` WHERE `no`='40';
 
 UPDATE `board_article` SET `comment`=`comment`+1 WHERE `no`=?;
 UPDATE `board_article` SET `comment`=`comment`-1 WHERE `no`=26;
+
+SELECT a.*, b.stdname, c.lecname FROM `register` AS a
+JOIN `student` AS b
+ON a.regstdno = b.stdno
+JOIN `lecture` AS c
+ON a.reglecno = c.lecno
+WHERE `regstdno`='20201126';
+
+select a.lecname from `lecture` AS a;
+
+(SELECT `no`,`title`,`rdate` FROM `board_article` WHERE `cate`='notice' ORDER BY `no` DESC LIMIT 3) 
+UNION 
+(SELECT `no`,`title`,`rdate` FROM `board_article` WHERE `cate`='one' ORDER BY `no` DESC LIMIT 3)
+UNION
+(SELECT `no`,`title`,`rdate` FROM `board_article` WHERE `cate`='question' ORDER BY `no` DESC LIMIT 3);
